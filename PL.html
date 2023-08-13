@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+   <style>
+       .sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  font-family:calibri;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+   </style>
+<head>
+      <ul>
+       <h1 style="text-align:center;"> Personal Loan</h1>
+      <div id="mySidenav" class="sidenav">
+       <li id="li"><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
+       <li id="li"><a href="home.html">Home</a></li>
+       <li id="li"><a href="emi.html">Emi Calculator</a></li>
+       <li id="li"><a href="PL.html">Check Eligibilty</a></li>
+       <li id="li"><a href="HL.html">Services</a></li>
+       <li><a href="about.html">Contact us</a></li>
+      </div>
+      </ul>
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+
+</head>
+<head>
+   <title>Loan calculator</title>
+   <style>
+
+         table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  text-align: center;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #363636;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+input[type="text"], input[type="number"], input[type="date"] {
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+button[type="submit"] {
+  background-color: #eb8787;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #f58c8c;
+}
+
+.Loan_calcualtor {
+  padding: 30px;
+  margin: 50px auto;
+  max-width: 700px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px #ddd;
+}
+
+.center {
+  text-align: center;
+}
+
+.center1 {
+  text-align: center;
+}
+
+.output {
+  text-align: center;
+  margin-top: 30px;
+}
+
+#error {
+  color: #ff0000;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+   </style>
+</head>
+<body>
+   <form>
+   <div class="Loan_calcualtor">
+     <!-- <form name="myform"> -->
+      <table class="center">
+      <tr><h1>Loan Eligibilty Checker </h1></tr>
+      <tr height="20px" style="background-color:#363636;color:rgb(235, 135, 135);text-align:center;font-size:24px; font-weight:600;"><td colspan='4'>Personal Details</td></tr>
+      
+      <tr><th>NAME:</th>
+        <td><input type="text" id="name" required="correct name"></td>
+      <th>NUMBER:</th><td><input type="text" id="num" required></td></tr>
+      <tr><th>Email:</th><td><input type="text" id="email" required></td><th>DOB:</th><td><input type="date" id="dob"></td></tr>
+      <tr><th>PAN:</th><td><input type="text" id="pan" style="text-align:center;" required></td><th>Pincode:</th>
+         <td><input type="number" id="pin"></td></tr>
+         <tr></tr>
+         
+      <tr><th>Salary:</th><td><input type="number" id="sal" required></td><th>Work Experience</th><td><input type="date" id="exp"></td></tr>
+      <tr><th>Company Name:</th><td><input type="text" id="comp"></td><th>Bank Name:</th><td><input type="text" id="bank"></td></tr>
+      
+
+      
+   </table>
+</form>
+</div>
+<div class="center1">
+   <button type="submit" id="btn" onclick="validateForm()">Check eligibility</button><br>
+</div><br>
+<div class="output">
+<label style="color:green;"><b><span id="loanstate"></span></b></label>
+<label style="color:red;"><b><span id="loanstate1"></span></b></label>
+<br> <br>
+<b><p id="error" style="text-align: center; font-size: 40px; color:red; "></p></b>
+</div>
+<img src="" alt="loan-eligibility-image" id="loanImage" style="display: none;">
+</body>
+<script>
+ function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+function validateForm() {
+    // Get user input values
+    var name = document.getElementById("name").value;
+    var phoneNumber = document.getElementById("num").value;
+    var email = document.getElementById("email").value;
+    var dob = document.getElementById("dob").value;
+    var pan = document.getElementById("pan").value;
+    var pin = document.getElementById("pin").value;
+    var salary = document.getElementById("sal").value;
+    var experience = document.getElementById("exp").value;
+    var companyName = document.getElementById("comp").value;
+    var bankName = document.getElementById("bank").value;
+
+    // Check if all fields are filled
+    if (!name || !phoneNumber || !email || !dob || !pan || !pin || !salary || !experience || !companyName || !bankName) {
+        document.getElementById("error").innerHTML = "Please fill in all the fields.";
+        return false;
+    }
+
+    // Check if the phone number is valid
+    var phoneNumberRegex = /^\d{10}$/;
+    if (!phoneNumber.match(phoneNumberRegex)) {
+        document.getElementById("error").innerHTML = "Please enter a valid phone number.";
+        return false;
+    }
+
+    // Check if the email address is valid
+    var emailRegex = /\S+@\S+\.\S+/;
+    if (!email.match(emailRegex)) {
+        document.getElementById("error").innerHTML = "Please enter a valid email address.";
+        return false;
+    }
+
+    // Check if the PAN number is valid
+    var panRegex = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
+    if (!pan.match(panRegex)) {
+        document.getElementById("error").innerHTML = "Please enter a valid PAN number.";
+        return false;
+    }
+
+    // Calculate the age of the user based on their date of birth
+    var age = new Date().getFullYear() - new Date(dob).getFullYear();
+    if (age < 21) {
+        document.getElementById("loanstate1").innerHTML = "You must be at least 21 years old to be eligible for a loan.";
+        return false;
+    }
+
+    // Check if the user's salary is sufficient for the loan
+    if (salary < 30000) {
+        document.getElementById("loanstate1").innerHTML = "Your salary is too low to be eligible for a loan.";
+        return false;
+    }
+
+    // Check if the user has enough work experience
+    var experienceYears = new Date().getFullYear() - new Date(experience).getFullYear();
+    if (experienceYears < 2) {
+        document.getElementById("loanstate1").innerHTML = "You must have at least 2 years of work experience to be eligible for a loan.";
+        return false;
+    }
+
+    // Check the user's CIBIL score
+    //var cibilScore = Math.floor(Math.random() * 900) + 300; // Generate a random CIBIL score between 300 and 1200
+    //if (cibilScore < 500) {
+        //document.getElementById("loanstate1").innerHTML = "Sorry, your CIBIL score is too low to be eligible for a loan.";
+        //return false;
+   // }
+
+    // If all checks pass, the user is eligible for a loan
+    document.getElementById("loanstate").innerHTML = "Congratulations! You are eligible for a loan.";
+    return true;
+
+// Get the loan image element by its ID
+const loanImage = document.getElementById('loanImage');
+
+// Set the loan image URL
+const imageUrl = '.jpg';
+
+// Display the loan image on the page
+loanImage.style.display = 'block';
+loanImage.src = imageUrl;
+
+}
+</script>

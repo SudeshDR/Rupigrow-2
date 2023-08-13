@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>User Data Collection</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Lato", sans-serif;
+                background-color: #f7f7f7;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            #userForm {
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                width: 100%;
+                max-width: 600px;
+                box-sizing: border-box;
+            }
+
+            fieldset {
+                display: none;
+                border-radius: 10px;
+                padding: 5px 15px;
+            }
+
+            legend {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            input[type="text"],
+            input[type="date"],
+            input[type="number"],
+            input[type="tel"],
+            input[type="email"],
+            select {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+
+            input[type="checkbox"] {
+                margin-right: 10px;
+            }
+
+            button {
+                background-color: #007bff;
+                color: #ffffff;
+                margin-top: 10px;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 1rem;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+            #prevBtn {
+                display: none;
+                margin-right: 10px;
+            }
+
+            #nextBtn {
+                margin-left: auto; /* Pushes the "Next" button to the right */
+            }
+
+            @media screen and (max-width: 768px) {
+                #userForm {
+                    padding: 15px;
+                }
+
+                input[type="text"],
+                input[type="date"],
+                input[type="number"],
+                input[type="tel"],
+                input[type="email"],
+                select {
+                    font-size: 0.9rem;
+                }
+
+                button {
+                    font-size: 0.9rem;
+                }
+
+                #prevBtn {
+                    display: inline;
+                    margin-right: auto; /* Pushes the "Previous" button to the left */
+                    margin-left: 0;
+                }
+                
+            }
+            #userForm #step3 a{
+                    color: black;
+                }
+        </style>
+    </head>
+    <body>
+        <form id="userForm" action="" method="post">
+            <fieldset id="step1">
+                <legend>Personal Information</legend>
+                <input
+                    type="text"
+                    name="first_name"
+                    placeholder="First Name"
+                    required
+                /><br />
+                <input
+                    type="text"
+                    name="last_name"
+                    placeholder="Last Name"
+                    required
+                /><br />
+                <input
+                    type="date"
+                    name="date_of_birth"
+                    placeholder="Date of Birth"
+                    required
+                /><br />
+                <select name="gender" required>
+                    <option>- Please select Gender from below options -</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="trans">Trans Gender</option></select
+                ><br />
+            </fieldset>
+
+            <fieldset id="step2">
+                <legend>Employment Information</legend>
+                <select name="employment_type" required>
+                    <option>
+                        - Please select Employment Type from below options -
+                    </option>
+                    <option value="salaried">Salaried</option>
+                    <option value="self_employed">Self Employed</option></select
+                ><br />
+                <input
+                    type="text"
+                    id="pan"
+                    placeholder="Pan Number"
+                    name="pan"
+                    required
+                /><br />
+
+                <input
+                    type="number"
+                    name="monthly_income"
+                    placeholder="Monthly Income"
+                    required
+                /><br />
+            </fieldset>
+
+            <fieldset id="step3">
+                <legend>Contact Information</legend>
+                <input
+                    type="text"
+                    name="postal_code"
+                    placeholder="Postal Code"
+                    required
+                /><br />
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone Number"
+                    required
+                /><br />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                /><br />
+                <input
+                    type="checkbox"
+                    name="terms_accepted"
+                    required
+                    value="true"
+                />
+                <a href="terms-condirions.html"
+                    >I accept the terms and conditions</a
+                ><br />
+                <input type="checkbox" name="ckyc_consent" value="true" /> I
+                <a href="user-consent.html">I give CKYC consent</a><br />
+            </fieldset>
+
+            <input
+                type="hidden"
+                name="product_offering"
+                value="product_offering"
+            />
+            <input type="hidden" name="phone_verified" value="true" />
+
+            <button type="button" id="prevBtn" onclick="prevStep()">
+                Previous
+            </button>
+            <button type="button" id="nextBtn" onclick="nextStep()">
+                Next
+            </button>
+            <button type="submit" id="submitBtn">Submit</button>
+        </form>
+
+        <script>
+            const form = document.getElementById("userForm");
+            const steps = form.querySelectorAll("fieldset");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            const submitBtn = document.getElementById("submitBtn");
+            let currentStep = 0;
+
+            function showStep(stepIndex) {
+                steps.forEach((step, index) => {
+                    if (index === stepIndex) {
+                        step.style.display = "block";
+                    } else {
+                        step.style.display = "none";
+                    }
+                });
+
+                if (stepIndex === 0) {
+                    prevBtn.style.display = "none";
+                } else {
+                    prevBtn.style.display = "inline";
+                }
+
+                if (stepIndex === steps.length - 1) {
+                    nextBtn.style.display = "none";
+                    submitBtn.style.display = "inline";
+                } else {
+                    nextBtn.style.display = "inline";
+                    submitBtn.style.display = "none";
+                }
+            }
+
+            function validateStep(stepIndex) {
+                const inputs = steps[stepIndex].querySelectorAll(
+                    "input[required], select[required], textarea[required]"
+                );
+                let isValid = true;
+
+                inputs.forEach((input) => {
+                    if (!input.value) {
+                        isValid = false;
+                    }
+                });
+
+                return isValid;
+            }
+
+            function nextStep() {
+                if (currentStep < steps.length - 1) {
+                    if (validateStep(currentStep)) {
+                        currentStep++;
+                        showStep(currentStep);
+                    } else {
+                        alert(
+                            "Please fill in all required fields before proceeding."
+                        );
+                    }
+                }
+            }
+
+            function prevStep() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            }
+
+            showStep(currentStep);
+        </script>
+    </body>
+</html>
+
+<!-- 
+    http://127.0.0.1:5500/form2.html
+    ?first_name=Shivam
+    &last_name=Vishwakarma
+    &date_of_birth=2002-12-06
+    &gender=male
+    &employment_type=salaried
+    &pan=efbfehfjaj214
+    &monthly_income=24000
+    &postal_code=400083
+    &phone=8928248703
+    &email=shivamxuv421%40gmail.com
+    &terms_accepted=true
+    &ckyc_consent=true
+    &product_offering=product_offering
+    &phone_verified=true 
+-->
